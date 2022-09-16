@@ -97,4 +97,30 @@ public class TestController {
 
         return ResponseEntity.ok().body(response);
     }
+
+    @GetMapping("/service2")
+    public ResponseEntity<?> testControllerService2() {
+        String str = service.testService2();
+        List<String> list = new ArrayList<>();
+        list.add(str);
+        ResponseDTO<String> response =
+                ResponseDTO.<String>builder()
+                        .data(list)
+                        .build();
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/service3")
+    public ResponseEntity<?> testControllerService3() {
+        String str = service.testService3();
+        List<String> list = new ArrayList<>();
+        list.add(str);
+        ResponseDTO<String> response =
+                ResponseDTO.<String>builder()
+                        .data(list)
+                        .build();
+
+        return ResponseEntity.ok().body(response);
+    }
 }
