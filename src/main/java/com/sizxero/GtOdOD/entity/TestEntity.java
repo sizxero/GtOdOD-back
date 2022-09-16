@@ -1,4 +1,4 @@
-package com.sizxero.GtOdOD.model;
+package com.sizxero.GtOdOD.entity;
 
 import javax.persistence.*;
 

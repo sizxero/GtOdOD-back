@@ -3,8 +3,8 @@ package com.sizxero.GtOdOD.service;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sizxero.GtOdOD.model.TestEntity;
-import com.sizxero.GtOdOD.persistence.TestRepository;
+import com.sizxero.GtOdOD.entity.TestEntity;
+import com.sizxero.GtOdOD.repository.TestRepository;
 
 @Service
 public class TestService {
