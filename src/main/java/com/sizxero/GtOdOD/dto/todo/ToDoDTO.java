@@ -1,4 +1,4 @@
-package com.sizxero.GtOdOD.dto;
+package com.sizxero.GtOdOD.dto.todo;
 
 import com.sizxero.GtOdOD.entity.ToDo;
 import lombok.AllArgsConstructor;
@@ -14,11 +14,14 @@ public class ToDoDTO {
     private Long no;
     private String userId;
     private String title;
+    private Long ctgId;
     private boolean done;
+
     public ToDoDTO(final ToDo entity){
         this.no = entity.getNo();
         this.userId = entity.getUserId();
         this.title = entity.getTitle();
+        this.ctgId = entity.getCategory().getNo();
         this.done = entity.isDone();
     }
     public static ToDo toEntity(final ToDoDTO dto){

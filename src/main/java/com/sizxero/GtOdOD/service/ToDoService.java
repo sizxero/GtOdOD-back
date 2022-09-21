@@ -1,16 +1,14 @@
 package com.sizxero.GtOdOD.service;
 
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import lombok.extern.slf4j.Slf4j;
 
-import com.sizxero.GtOdOD.dto.ToDoDTO;
 import com.sizxero.GtOdOD.entity.ToDo;
 import com.sizxero.GtOdOD.repository.ToDoRepository;
 
