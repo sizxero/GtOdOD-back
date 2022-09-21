@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import com.sizxero.GtOdOD.dto.ResponseDTO;
 import com.sizxero.GtOdOD.dto.user.UserDTO;
 import com.sizxero.GtOdOD.service.UserService;
+import com.sizxero.GtOdOD.security.TokenProvider;
 import com.sizxero.GtOdOD.entity.User;
+
 
 @Slf4j
 @RestController
@@ -25,6 +27,9 @@ import com.sizxero.GtOdOD.entity.User;
 public class UserController {
     @Autowired
     private UserService service;
+
+    @Autowired
+    private TokenProvider tokenProvider;
 
     @PostMapping
     public ResponseEntity<?>signup(@RequestBody UserDTO requestDto){
@@ -42,5 +47,35 @@ public class UserController {
                     ResponseDTO.<UserDTO>builder().error(err).build();
             return ResponseEntity.badRequest().body(response);
         }
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<?> login(@RequestBody UserDTO requestDTO) {
+        User user = service.getByCredentials(requestDTO.getId(), requestDTO.getPw());
+        if (user != null) {
+            final String token = tokenProvider.create(user);
+            final UserDTO responseUserDTO = UserDTO.builder()
+                    .id(user.getId())
+                    .token(token)
+                    .build();
+            return ResponseEntity.ok().body(responseUserDTO);
+        } else {
+            ResponseDTO responseDTO = ResponseDTO.builder()
+                    .error("Login Failed")
+                    .build();
+            return ResponseEntity.badRequest().body(responseDTO);
+        }
+    }
+
+    @GetMapping("/id")
+    public ResponseEntity<?> checkDuplId(@RequestParam(required = false) String str) {
+        boolean result = service.duplId(str);
+        return ResponseEntity.ok().body(result);
+    }
+
+    @GetMapping("/nick")
+    public ResponseEntity<?> checkDuplNick(@RequestParam(required = false) String str) {
+        boolean result = service.duplNick(str);
+        return ResponseEntity.ok().body(result);
     }
 }

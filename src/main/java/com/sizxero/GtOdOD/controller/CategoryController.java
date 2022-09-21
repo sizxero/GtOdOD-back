@@ -12,6 +12,7 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import com.sizxero.GtOdOD.dto.ResponseDTO;
 import com.sizxero.GtOdOD.dto.category.CategoryDTO;
@@ -29,7 +30,7 @@ public class CategoryController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<?> retrieveCtg(@RequestParam(required = false) String id) {
+    public ResponseEntity<?> retrieveCtg(@AuthenticationPrincipal String id) {
         List<Category> entities = ctgService.retrieve(id);
         List<CategoryDTO> dtos =
                 entities.stream().map(CategoryDTO::new).collect(Collectors.toList());
@@ -39,7 +40,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<?>createCtg(@RequestBody CategoryDTO requestDto, @RequestParam(required = false) String id) {
+    public ResponseEntity<?>createCtg(@RequestBody CategoryDTO requestDto, @AuthenticationPrincipal String id) {
         try {
             Category entity = CategoryDTO.toEntity(requestDto);
             User user = userService.findByUserId(id);

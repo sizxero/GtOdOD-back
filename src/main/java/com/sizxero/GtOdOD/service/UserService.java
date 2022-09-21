@@ -46,4 +46,10 @@ public class UserService {
     public boolean duplNick(String nick) {
         return repository.existsUserByNick(nick);
     }
+
+    public User getByCredentials(final String id, final String pw) {
+        log.info("---get by credential---");
+        log.info(repository.findByIdAndPw(id, pw).toString());
+        return repository.findByIdAndPw(id, pw);
+    }
 }

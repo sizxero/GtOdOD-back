@@ -10,6 +10,7 @@ import com.sizxero.GtOdOD.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import com.sizxero.GtOdOD.dto.ResponseDTO;
@@ -30,7 +31,7 @@ public class ToDoController {
     private CategoryService ctgService;
 
     @GetMapping
-    public ResponseEntity<?> retrieveToDo(@RequestParam(required = false) String id) {
+    public ResponseEntity<?> retrieveToDo(@AuthenticationPrincipal String id) {
         List<ToDo> entities = todoService.retrieve(id);
         List<ToDoDTO> dtos =
                 entities.stream().map(ToDoDTO::new).collect(Collectors.toList());
@@ -40,11 +41,14 @@ public class ToDoController {
     }
 
     @PostMapping
-    public ResponseEntity<?>createTodo(@RequestBody ToDoDTO requestDto, @RequestParam(required = true) String ctgId){
+    public ResponseEntity<?>createTodo(@RequestBody ToDoDTO requestDto, @AuthenticationPrincipal String id){
         try {
+            log.info(requestDto.toString());
             ToDo entity = ToDoDTO.toEntity(requestDto);
-            Category ctg = ctgService.findById(ctgId);
+            Category ctg = ctgService.findById(String.valueOf(requestDto.getCtgId()));
+            entity.setUserId(id);
             entity.setCategory(ctg);
+            log.info(entity.toString());
             Optional<ToDo> result = todoService.create(entity);
             List<ToDoDTO> dtos =
                     result.stream().map(ToDoDTO::new).collect(Collectors.toList());
@@ -60,7 +64,7 @@ public class ToDoController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateToDo(@RequestBody ToDoDTO requestDto, @RequestParam(required = false) String id) {
+    public ResponseEntity<?> updateToDo(@RequestBody ToDoDTO requestDto, @AuthenticationPrincipal String id) {
         try {
             ToDo entity = ToDoDTO.toEntity(requestDto);
             entity.setUserId(id);

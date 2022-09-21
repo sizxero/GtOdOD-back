@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class UserDTO {
+    private String token;
     private Long no;
     private String id;
     private String pw;
