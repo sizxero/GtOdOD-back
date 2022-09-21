@@ -19,6 +19,8 @@ import com.sizxero.GtOdOD.entity.ToDo;
 @Slf4j
 @RestController
 @RequestMapping("todo")
+// 이거 하면 WebConfig 안해도 됨(권장하지는 않음)
+// @CrossOrigin(origins="*")
 public class ToDoController {
     @Autowired
     private ToDoService service;
@@ -74,7 +76,7 @@ public class ToDoController {
     public ResponseEntity<?> deleteToDo(@RequestBody ToDoDTO dto) {
         try {
             List<String> message = new ArrayList<>();
-            String msg = service.delete(dto.getId());
+            String msg = service.delete(dto.getNo());
             message.add(msg);
             ResponseDTO<String> response =
                     ResponseDTO.<String>builder().data(message).build();

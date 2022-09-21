@@ -23,7 +23,7 @@ public class ToDoService {
     public Optional<ToDo> create(final ToDo entity) {
         validate(entity);
         repository.save(entity);
-        return repository.findById(entity.getId());
+        return repository.findById(entity.getNo());
     }
 
     public void validate(final ToDo entity) {
@@ -43,16 +43,16 @@ public class ToDoService {
 
     public Optional<ToDo> update(final ToDo entity) {
         validate(entity);
-        final Optional<ToDo> original = repository.findById(entity.getId());
+        final Optional<ToDo> original = repository.findById(entity.getNo());
         original.ifPresent(todo -> {
             todo.setTitle(entity.getTitle());
             todo.setDone(entity.isDone());
             repository.save(todo);
         });
-        return repository.findById(entity.getId());
+        return repository.findById(entity.getNo());
     }
 
-    public String delete(final String id) {
+    public String delete(final Long id) {
         if(repository.existsById(id))
             repository.deleteById(id);
         else

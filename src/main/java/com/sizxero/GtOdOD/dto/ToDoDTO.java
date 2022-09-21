@@ -11,19 +11,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class ToDoDTO {
-    private String id;
+    private Long no;
     private String userId;
     private String title;
     private boolean done;
     public ToDoDTO(final ToDo entity){
-        this.id = entity.getId();
+        this.no = entity.getNo();
         this.userId = entity.getUserId();
         this.title = entity.getTitle();
         this.done = entity.isDone();
     }
     public static ToDo toEntity(final ToDoDTO dto){
         return ToDo.builder()
-                .id(dto.getId())
+                .no(dto.getNo())
                 .userId(dto.getUserId())
                 .title(dto.getTitle())
                 .done(dto.isDone())

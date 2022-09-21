@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.sizxero.GtOdOD.entity.ToDo;
 
 @Repository
-public interface ToDoRepository extends JpaRepository<ToDo,String> {
+public interface ToDoRepository extends JpaRepository<ToDo,Long> {
     @Query("select t from ToDo t where t.userId = ?1")
     List<ToDo> findByUserId(String userId);
 }
