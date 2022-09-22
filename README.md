@@ -21,7 +21,7 @@
 | todo관리 | GET    | /todo                       | todo 조회 |
 | todo관리 | POST   | /todo                       | todo 등록     |
 | todo관리 | PUT    | /todo                       | todo 수정     |
-| todo관리 | DELETE | /todo?id={userid}           | todo 삭제     |
+| todo관리 | DELETE | /todo?no={todono}           | todo 삭제     |
 
 
 ## 📂 Directory 
