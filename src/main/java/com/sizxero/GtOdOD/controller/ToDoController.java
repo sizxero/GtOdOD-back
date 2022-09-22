@@ -83,10 +83,10 @@ public class ToDoController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteToDo(@RequestBody ToDoDTO dto) {
+    public ResponseEntity<?> deleteToDo(@RequestParam String no) {
         try {
             List<String> message = new ArrayList<>();
-            String msg = todoService.delete(dto.getNo());
+            String msg = todoService.delete(Long.parseLong(no));
             message.add(msg);
             ResponseDTO<String> response =
                     ResponseDTO.<String>builder().data(message).build();
