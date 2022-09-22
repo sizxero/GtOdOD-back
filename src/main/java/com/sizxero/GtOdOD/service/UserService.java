@@ -39,6 +39,8 @@ public class UserService {
 
     public User findByUserId(String id) { return repository.findByUserId(id); }
 
+    public String findNickById(String id) { return repository.findNickById(id); }
+
     public boolean duplId(String id) {
         return repository.existsUserById(id);
     }

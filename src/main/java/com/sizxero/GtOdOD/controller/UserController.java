@@ -78,4 +78,11 @@ public class UserController {
         boolean result = service.duplNick(str);
         return ResponseEntity.ok().body(result);
     }
+
+    @GetMapping("/findnick")
+    public ResponseEntity<?> findNick(@RequestParam(required = false) String str) {
+        String result = service.findNickById(str);
+        return ResponseEntity.ok().body(result);
+    }
+
 }
