@@ -1,5 +1,6 @@
 package com.sizxero.GtOdOD.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,4 +11,5 @@ import com.sizxero.GtOdOD.entity.ToDo;
 public interface ToDoRepository extends JpaRepository<ToDo,Long> {
     @Query("select t from ToDo t where t.userId = ?1")
     List<ToDo> findByUserId(String userId);
+    List<ToDo> findAllByDateBetweenAndUserId(LocalDateTime start, LocalDateTime end, String userId);
 }

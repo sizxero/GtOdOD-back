@@ -2,6 +2,9 @@ package com.sizxero.GtOdOD.service;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,8 +38,10 @@ public class ToDoService {
         }
     }
 
-    public List<ToDo> retrieve(String tempUserId) {
-        return repository.findByUserId(tempUserId);
+    public List<ToDo> retrieve(LocalDate targetDate, String tempUserId) {
+        LocalDateTime start =  LocalDateTime.of(targetDate, LocalTime.of(0,0,0));
+        LocalDateTime end = LocalDateTime.of(targetDate, LocalTime.of(23,59,59));
+        return repository.findAllByDateBetweenAndUserId(start, end, tempUserId);
     }
 
     public Optional<ToDo> update(final ToDo entity) {
@@ -45,6 +50,7 @@ public class ToDoService {
         original.ifPresent(todo -> {
             todo.setTitle(entity.getTitle());
             todo.setDone(entity.isDone());
+            todo.setDate(entity.getDate());
             repository.save(todo);
         });
         return repository.findById(entity.getNo());

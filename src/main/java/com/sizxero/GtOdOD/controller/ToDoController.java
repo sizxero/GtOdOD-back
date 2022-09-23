@@ -1,5 +1,7 @@
 package com.sizxero.GtOdOD.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,8 +33,13 @@ public class ToDoController {
     private CategoryService ctgService;
 
     @GetMapping
-    public ResponseEntity<?> retrieveToDo(@AuthenticationPrincipal String id) {
-        List<ToDo> entities = todoService.retrieve(id);
+    public ResponseEntity<?> retrieveToDo(@RequestParam(required = false) String date, @AuthenticationPrincipal String id) {
+        log.info(date);
+        LocalDate param = LocalDate.now();
+        if (date != null && !date.equals("null")) {
+            param = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
+        }
+        List<ToDo> entities = todoService.retrieve(param, id);
         List<ToDoDTO> dtos =
                 entities.stream().map(ToDoDTO::new).collect(Collectors.toList());
         ResponseDTO<ToDoDTO> response =
