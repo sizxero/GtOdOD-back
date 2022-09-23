@@ -1,6 +1,11 @@
 package com.sizxero.GtOdOD.service;
 
+import com.sizxero.GtOdOD.entity.ToDo;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +40,22 @@ public class UserService {
             log.warn("Unknown user.");
             throw new RuntimeException("Unknown user.");
         }
+    }
+
+    public User retrieve(String userId) {
+        return repository.findByUserId(userId);
+    }
+
+    public Optional<User> update(final User entity) {
+        validate(entity);
+        final Optional<User> original = repository.findById(entity.getNo());
+        original.ifPresent(user -> {
+            user.setName(entity.getName());
+            user.setNick(entity.getNick());
+            user.setPw(entity.getPw());
+            repository.save(user);
+        });
+        return repository.findById(entity.getNo());
     }
 
     public User findByUserId(String id) { return repository.findByUserId(id); }

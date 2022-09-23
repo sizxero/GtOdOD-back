@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import com.sizxero.GtOdOD.dto.ResponseDTO;
@@ -40,6 +41,38 @@ public class UserController {
                     result.stream().map(UserDTO::new).collect(Collectors.toList());
             ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().data(dtos).build();
             log.info("response dto ok");
+            return ResponseEntity.ok().body(response);
+        } catch(Exception e) {
+            String err = e.getMessage();
+            ResponseDTO<UserDTO> response =
+                    ResponseDTO.<UserDTO>builder().error(err).build();
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<?> userInfo(@AuthenticationPrincipal String id) {
+        try {
+            User result = service.retrieve(id);
+            UserDTO dto = new UserDTO(result);
+            return ResponseEntity.ok().body(dto);
+        } catch(Exception e) {
+            String err = e.getMessage();
+            ResponseDTO<UserDTO> response =
+                    ResponseDTO.<UserDTO>builder().error(err).build();
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateUserInfo(@RequestBody UserDTO requestDto, @AuthenticationPrincipal String id) {
+        try {
+            User entity = UserDTO.toEntity(requestDto);
+            entity.setId(id);
+            Optional<User> result = service.update(entity);
+            List<UserDTO> dtos =
+                    result.stream().map(UserDTO::new).collect(Collectors.toList());
+            ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().data(dtos).build();
             return ResponseEntity.ok().body(response);
         } catch(Exception e) {
             String err = e.getMessage();
