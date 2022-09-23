@@ -36,7 +36,7 @@ public class ToDoController {
     public ResponseEntity<?> retrieveToDo(@RequestParam(required = false) String date, @AuthenticationPrincipal String id) {
         log.info(date);
         LocalDate param = LocalDate.now();
-        if (date != null && !date.equals("null")) {
+        if (date != null && !date.equals("null") && !date.equals("undefined")) {
             param = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
         }
         List<ToDo> entities = todoService.retrieve(param, id);
